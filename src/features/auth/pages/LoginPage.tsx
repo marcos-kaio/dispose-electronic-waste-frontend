@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type loginFormData } from "../schemas/login-schema";
+import { useAuth } from "../contexts/AuthContext";
 
 import logosImage from "@/assets/images/logo-ufpe-sti-cstic.png";
 import {
@@ -14,6 +15,7 @@ import {
 import { Eye, EyeOff } from "lucide-react";
 
 function LoginPage() {
+  const {login} = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<loginFormData>({
@@ -27,6 +29,7 @@ function LoginPage() {
 
   const onSubmit = (data: loginFormData) => {
     console.log("Logado: ", data);
+    login(data.user);
   };
 
   return (
