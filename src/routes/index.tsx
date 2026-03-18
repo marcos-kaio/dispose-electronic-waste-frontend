@@ -8,6 +8,7 @@ import {
 import { AuthProvider, useAuth } from "@/features/auth/contexts/AuthContext";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import DashboardPage from "@/features/disposal/pages/DashboardPage";
+import AppLayout from "@/components/layout/AppLayout";
 
 function PrivateRoute() {
   const { isAuthenticated } = useAuth();
@@ -31,9 +32,11 @@ function AppRoutes() {
           </Route>
 
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-            <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
           </Route>
         </Routes>
       </AuthProvider>
