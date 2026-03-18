@@ -4,24 +4,33 @@ import { useNavigate } from "react-router-dom";
 interface AuthContextData {
   isAuthenticated: boolean;
   user: { name: string; email: string } | null;
-  login: (email: string) => void;
+  login: (user: string, password?: string) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string } | null>(
+    null,
+  );
   const navigate = useNavigate();
 
-  function login(email: string) {
-    setUser({ name: "Usuário teste", email });
-    navigate("/"); // adicionar rota correta para página inicial de dashboard
+  async function login(user: string, password?: string) {
+    
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    if (user === "admin" && password === "Admin@123") {
+      setUser({ name: "Administrador STI", email: user });
+      navigate("/dashboard");
+    } else {
+      throw new Error("Usuário ou senha incorretos!");
+    }
   }
 
   function logout() {
     setUser(null);
-    navigate("/");
+    navigate("/login");
   }
 
   const isAuthenticated = !!user;
@@ -34,6 +43,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useAuth(){
-    return useContext(AuthContext)
+export function useAuth() {
+  return useContext(AuthContext);
 }

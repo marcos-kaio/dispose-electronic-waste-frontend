@@ -27,9 +27,17 @@ function LoginPage() {
   });
   const { errors } = form.formState;
 
-  const onSubmit = (data: loginFormData) => {
-    console.log("Logado: ", data);
-    login(data.user);
+  const onSubmit = async (data: loginFormData) => {
+    try{
+      await login(data.user, data.password);
+    } catch (error) {
+      if (error instanceof Error) {
+        form.setError("root", {
+          type: "manual",
+          message: error.message,
+        });
+      }
+    }
   };
 
   return (
@@ -92,6 +100,12 @@ function LoginPage() {
               </span>
             )}
           </div>
+
+          {errors.root && (
+            <div className="text-red-500 text-sm text-center font-medium bg-red-50 p-3 rounded-md border border-red-200 w-full sm:w-[70%] self-center">
+              {errors.root.message}
+            </div>
+          )}
 
           <Button
             className="w-full sm:w-[70%] self-center bg-[#224185] hover:bg-[#60749e] text-white text-sm sm:text-2xl h-12.5 cursor-pointer mb-2"
