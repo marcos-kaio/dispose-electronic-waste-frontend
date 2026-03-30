@@ -8,17 +8,17 @@ function AppLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="mx-6 md:mx-13 mt-6 py-4 px-4 md:px-9 border-b-2 border-[#224185]">
+      <header className="sticky top-0 z-50 mx-6 md:mx-13 pt-10 pb-4 px-4 md:px-9 border-b-2 bg-[#F3F4F6]/90 backdrop-blur-md border-[#224185]">
         <div className="flex flex-row justify-between font-medium text-[20px]">
-          <p onClick={logout}>Olá, {user?.name}!</p>
+          <p onClick={logout} className={`cursor-pointer ${navButtonStyle}`}>Olá, {user?.name}!</p>
           <nav className="flex flex-row items-center gap-8 md:gap-16">
-            <Link to="" className={navButtonStyle}>
+            <Link to="/history" className={navButtonStyle}>
               Histórico de descartes
             </Link>
-            <Link to="" className={navButtonStyle}>
+            <Link to="/report" className={navButtonStyle}>
               Relatório
             </Link>
-            <Link to="" className={navButtonStyle}>
+            <Link to="/learn-more" className={navButtonStyle}>
               Saiba mais
             </Link>
           </nav>
