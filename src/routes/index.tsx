@@ -9,7 +9,6 @@ import { AuthProvider, useAuth } from "@/features/auth/contexts/AuthContext";
 import AppLayout from "@/components/layout/AppLayout";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import DashboardPage from "@/features/disposal/pages/DashboardPage";
-import DisposalHistoryPage from "@/features/disposal/pages/DisposalHistoryPage";
 import ReportPage from "@/features/disposal/pages/ReportPage";
 import LearnMorePage from "@/features/disposal/pages/LearnMorePage";
 
@@ -39,7 +38,6 @@ function AppRoutes() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/history" element={<DisposalHistoryPage />} />
               <Route path="/report" element={<ReportPage />} />
               <Route path="/learn-more" element={<LearnMorePage />} />
             </Route>

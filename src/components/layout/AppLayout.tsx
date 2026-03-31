@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
 import { User, LogOut } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 const navButtonStyle = "hover:text-[#224185]";
 
@@ -60,15 +60,36 @@ function AppLayout() {
           </div>
 
           <nav className="flex flex-row items-center gap-8 md:gap-16">
-            <Link to="/history" className={navButtonStyle}>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `hover:text-[#224185] transition-all ${
+                  isActive ? "text-[#224185] font-bold" : "text-black"
+                }`
+              }
+            >
               Histórico de descartes
-            </Link>
-            <Link to="/report" className={navButtonStyle}>
+            </NavLink>
+            <NavLink
+              to="/report"
+              className={({ isActive }) =>
+                `hover:text-[#224185] transition-all ${
+                  isActive ? "text-[#224185] font-bold" : "text-black"
+                }`
+              }
+            >
               Relatório
-            </Link>
-            <Link to="/learn-more" className={navButtonStyle}>
+            </NavLink>
+            <NavLink
+              to="/learn-more"
+              className={({ isActive }) =>
+                `hover:text-[#224185] transition-all ${
+                  isActive ? "text-[#224185] font-bold" : "text-black"
+                }`
+              }
+            >
               Saiba mais
-            </Link>
+            </NavLink>
           </nav>
         </div>
       </header>
