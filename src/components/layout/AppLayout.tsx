@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/features/auth/contexts/AuthContext";
 import { User, LogOut } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
@@ -9,11 +9,28 @@ function AppLayout() {
   const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutsideDropdown(e: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutsideDropdown);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutsideDropdown);
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 mx-6 md:mx-13 pt-10 pb-4 px-4 md:px-9 border-b-2 bg-[#F3F4F6]/90 backdrop-blur-md border-[#224185]">
         <div className="flex flex-row justify-between font-medium text-[20px]">
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
               <p className={`cursor-pointer ${navButtonStyle}`}>
                 Olá, {user?.name}!
