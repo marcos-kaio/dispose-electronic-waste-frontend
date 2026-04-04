@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type loginFormData } from "../schemas/login-schema";
+import { useAuth } from "../contexts/AuthContext";
 
 import logosImage from "@/assets/images/logo-ufpe-sti-cstic.png";
 import {
@@ -14,6 +15,7 @@ import {
 import { Eye, EyeOff } from "lucide-react";
 
 function LoginPage() {
+  const {login} = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<loginFormData>({
@@ -25,8 +27,17 @@ function LoginPage() {
   });
   const { errors } = form.formState;
 
-  const onSubmit = (data: loginFormData) => {
-    console.log("Logado: ", data);
+  const onSubmit = async (data: loginFormData) => {
+    try{
+      await login(data.user, data.password);
+    } catch (error) {
+      if (error instanceof Error) {
+        form.setError("root", {
+          type: "manual",
+          message: error.message,
+        });
+      }
+    }
   };
 
   return (
@@ -89,6 +100,12 @@ function LoginPage() {
               </span>
             )}
           </div>
+
+          {errors.root && (
+            <div className="text-red-500 text-sm text-center font-medium bg-red-50 p-3 rounded-md border border-red-200 w-full sm:w-[70%] self-center">
+              {errors.root.message}
+            </div>
+          )}
 
           <Button
             className="w-full sm:w-[70%] self-center bg-[#224185] hover:bg-[#60749e] text-white text-sm sm:text-2xl h-12.5 cursor-pointer mb-2"
